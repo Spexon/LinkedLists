@@ -3,4 +3,4 @@ project(COP_3530__Algorithms_)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(COP_3530__Algorithms_ main.cpp)
+add_executable(COP_3530__Algorithms_ main.cpp Prototypes.h)
