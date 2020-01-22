@@ -7,7 +7,7 @@ struct node {
     int data;
     node* next;
 };
-
+bool isNull = true;
 #include "Prototypes.h"
 
 /**
@@ -29,23 +29,29 @@ int main() {
 
 void insert_front(node **front, node **rear, int data) {
 
-    node *p;
-    p = new node;
-    p -> data = data;
-    if(front == nullptr) {
-        std::cout << "Null pointer" << std::endl;
-        *front = *rear = p;
-        p -> next = nullptr;
+    node *p_data;
+    p_data = new node;
+    p_data -> data = data;
+    std::cout << "Front " << front << std::endl;
+    //if(isNull) {
+    if(front) { // Special case
+        std::cout << "Null pointer: " << p_data << std::endl;
+        *front = *rear = p_data;
+        std::cout << "p data: " << p_data << std::endl;
+        p_data -> next = nullptr;
     }
     else { // One or more nodes
-        std::cout << "One Node or more" << std::endl;
-        p -> next = *front;
-        *front = p;
+        std::cout << "One or more nodes " << data << std::endl;
+        p_data -> next = *front;
+        *front = p_data;
     }
+
+    // General case for adding links
+
 }
 
 void navigate_list() {
-    std::cout << p -> next << std::endl;
+    //std::cout << p -> next << std::endl;
 }
 
 void insert_front(void *data);
