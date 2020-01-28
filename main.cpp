@@ -17,13 +17,13 @@ bool isNull = true;
  * @return
  */
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
     node* front = new node;
     node* rear = new node;
     front = rear = nullptr;
     insert_front(&front,&rear,5);
-    insert_front(&front,&rear,7);
-    insert_front(&front,&rear,10);
+    //insert_front(&front,&rear,7);
+    //insert_front(&front,&rear,10);
     return 0;
 }
 
@@ -35,9 +35,9 @@ void insert_front(node **front, node **rear, int data) {
     std::cout << "Front " << front << std::endl;
     //if(isNull) {
     if(front) { // Special case
-        std::cout << "Null pointer: " << p_data << std::endl;
-        *front = *rear = p_data;
-        std::cout << "p data: " << p_data << std::endl;
+        std::cout << "p_data: " << p_data << std::endl;
+        *front = *rear = p_data; //does being equal to P_data make front and rear point to p_data or a new node data?
+        std::cout << "rear: " << rear << std::endl;
         p_data -> next = nullptr;
     }
     else { // One or more nodes
