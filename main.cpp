@@ -27,6 +27,12 @@ int main() {
     return 0;
 }
 
+/**
+ * @brief adds a new node to the front of a linked list with data
+ * @param front the front pointer
+ * @param rear  the rear pointer
+ * @param data data that will be held in the node
+ */
 void insert_front(node **front, node **rear, int data) {
 
     node *p_data;
