@@ -7,7 +7,6 @@ struct node {
     int data;
     node* next;
 };
-bool isNull = true;
 #include "Prototypes.h"
 
 /**
@@ -22,38 +21,45 @@ int main() {
     node* rear = new node;
     front = rear = nullptr;
     insert_front(&front,&rear,5);
-    //insert_front(&front,&rear,7);
-    //insert_front(&front,&rear,10);
+    insert_front(&front,&rear,7);
+    insert_front(&front,&rear,10);
     return 0;
 }
 
 /**
- * @brief adds a new node to the front of a linked list with data
+ * @brief adds a new node to the front of a linked list with data (SO FAR, we can get the front and rear data, but nothing in the middle)
  * @param front the front pointer
  * @param rear  the rear pointer
  * @param data data that will be held in the node
  */
 void insert_front(node **front, node **rear, int data) {
 
-    node *p_data;
-    p_data = new node;
+    std::cout << "=============\n" << std::endl; //separator
+    node *p_data = new node;
     p_data -> data = data;
-    std::cout << "Front " << front << std::endl;
-    //if(isNull) {
-    if(front) { // Special case
+    //std::cout << "Front " << *front << std::endl; //Proof that front is null at the beginning
+    if(*front == nullptr) { // Special case
         std::cout << "p_data: " << p_data << std::endl;
         *front = *rear = p_data; //does being equal to P_data make front and rear point to p_data or a new node data?
-        std::cout << "rear: " << rear << std::endl;
+        //std::cout << "Front: " << *front << std::endl;
+        //std::cout << "rear: " << *rear << std::endl;
+        hold = data;
         p_data -> next = nullptr;
+        std::cout << "First Data: " << p_data -> data << std::endl;
     }
-    else { // One or more nodes
-        std::cout << "One or more nodes " << data << std::endl;
-        p_data -> next = *front;
-        *front = p_data;
+    else { // One or more nodes (general case)
+
+        std::cout << "Front data: " << p_data -> data << std::endl;
+        //std::cout << "Front: " << *front << std::endl;
+        //std::cout << "rear: " << *rear << std::endl;
+        p_data = *rear;
+        std::cout << "Rear data: " << p_data -> data << std::endl;
+
+        *front = p_data -> next;
+        p_data = *front;
+        std::cout << "Middle data: " << p_data -> data << std::endl;
     }
-
-    // General case for adding links
-
+    p_data -> next = *front;
 }
 
 void navigate_list() {

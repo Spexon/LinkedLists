@@ -4,8 +4,10 @@
 
 #ifndef COP_3530__ALGORITHMS__PROTOTYPES_H
 #define COP_3530__ALGORITHMS__PROTOTYPES_H
-//prototype (gives the compiler a heads up about the upcoming function)
+//prototype global variables
+int hold;
 
+//Prototype Functions (gives the compiler a heads up about the upcoming function):
 void insert_front(node **front, node **rear, int data);
 
 void navigate_list();
