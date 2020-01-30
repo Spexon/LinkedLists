@@ -6,6 +6,7 @@
 struct node {
     int data;
     node* next;
+    node* prev;
 };
 #include "Prototypes.h"
 
@@ -41,29 +42,23 @@ void insert_front(node **front, node **rear, int data) {
     if(*front == nullptr) { // Special case
         std::cout << "p_data: " << p_data << std::endl;
         *front = *rear = p_data; //does being equal to P_data make front and rear point to p_data or a new node data?
-        //std::cout << "Front: " << *front << std::endl;
-        //std::cout << "rear: " << *rear << std::endl;
+        std::cout << "Front: " << front << std::endl;
+        //std::cout << "rear: " << rear << std::endl;
         hold = data;
         p_data -> next = nullptr;
         std::cout << "First Data: " << p_data -> data << std::endl;
     }
     else { // One or more nodes (general case)
-
-        std::cout << "Front data: " << p_data -> data << std::endl;
-        //std::cout << "Front: " << *front << std::endl;
-        //std::cout << "rear: " << *rear << std::endl;
-        p_data = *rear;
-        std::cout << "Rear data: " << p_data -> data << std::endl;
-
-        *front = p_data -> next;
-        p_data = *front;
-        std::cout << "Middle data: " << p_data -> data << std::endl;
+        p_data -> next = *front; //This moves the link of the new node to the next node
+        std::cout << "New front: " << front << std::endl;
+        front = &p_data;
+        std::cout << "Old front: " << front << std::endl;
+        std::cout << "Data: " << p_data -> data << std::endl;
     }
-    p_data -> next = *front;
 }
 
 void navigate_list() {
-    //std::cout << p -> next << std::endl;
+    
 }
 
 void insert_front(void *data);
