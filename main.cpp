@@ -5,7 +5,7 @@
 // To access members of a structure, use the dot operator. To access members of a structure through a pointer, use the arrow operator.
 struct node {
     int data;
-    node* next;
+    node* next; //This may need to be swapped with prev
     node* prev;
 };
 #include "Prototypes.h"
@@ -24,7 +24,8 @@ int main() {
     insert_front(&front,&rear,5);
     insert_front(&front,&rear,7);
     insert_front(&front,&rear,10);
-    navigate_list(&front, rear);
+    navigate_list_backwards(&front, rear);
+    navigate_list_forward(&front, &rear);
     return 0;
 }
 
@@ -49,22 +50,35 @@ void insert_front(node **front, node **rear, int data) {
         //std::cout << "rear: " << rear << std::endl;
         hold = data;
         p_data -> next = nullptr;
-        //std::cout << "First Data: " << p_data -> data << std::endl;
+        p_data -> prev = nullptr;
     }
     else { // One or more nodes (general case)
         p_data -> next = *front; //This moves the link of the new node to the next node
+        (*front) -> prev = p_data; //The -> is happening before the *, so the compiler is trying to use -> get_data on a Node<NODETYPE> ** which doesn't work.
         std::cout << "next: " << p_data -> next << std::endl;
         *front = p_data; //The value front is pointing to is assigned p_data
+
+    }
+}
+void navigate_list_forward(node **front, node **rear) {
+
+    std::cout << "Navigating linked list forwards: " << std::endl;
+    node *p_data;
+    p_data = *rear;
+    while(p_data != nullptr) {
+        std::cout << p_data -> data << std::endl;
+        p_data = p_data -> prev;
     }
 }
 
-void navigate_list(node **front, node *rear) {
+void navigate_list_backwards(node **front, node *rear) {
 
+    std::cout << "Navigating linked list backwards: " << std::endl;
     node *p_data = new node;
     p_data = *front;
-    std::cout << p_data -> next << " " << &rear << std::endl;
     while(p_data != nullptr) {
-        std::cout << "Navigating to: " << p_data -> data << std::endl;
+        //std::cout << p_data -> next << " " << &rear << std::endl;
+        std::cout <<  p_data -> data << std::endl;
         p_data = p_data -> next;
     }
 }
