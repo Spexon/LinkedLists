@@ -10,9 +10,7 @@ int hold;
 //Prototype Functions (gives the compiler a heads up about the upcoming function):
 void insert_front(node **front, node **rear, int data);
 
-void navigate_list();
-
-void insert_front(void *data);
+void navigate_list(node **front, node *rear);
 
 void insert_rear(int data);
 
