@@ -24,6 +24,6 @@ int remove_rear_i();
 
 void *remove_rear_p();
 
-int empty();
+bool empty(node **front);
 
 #endif //COP_3530__ALGORITHMS__PROTOTYPES_H

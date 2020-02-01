@@ -27,11 +27,13 @@ int main() {
     node *front = new node;
     node *rear = new node;
     front = rear = nullptr;
+    empty(&front);
     insert_rear(&front, &rear, 16);
     insert_rear(&front, &rear, 12);
     insert_front(&front, &rear, 5);
     insert_front(&front, &rear, 7);
     insert_front(&front, &rear, 10);
+    empty(&front);
 
     navigate_list_forward(&front);
     navigate_list_backwards(&rear);
@@ -39,10 +41,41 @@ int main() {
 }
 
 /**
- * @brief adds a new node to the front of a linked list with data (SO FAR, we can get the front and rear data, but nothing in the middle)
- * @param front the front pointer
- * @param rear  the rear pointer
- * @param data data that will be held in the node
+ * @brief Navigates through a linked list and prints its data starting from the front
+ * @param front: a pointer that points to the first node in the list
+ */
+void navigate_list_forward(node **front) {
+
+    std::cout << "Navigating linked list forwards: " << std::endl;
+    node *p_data = new node;
+    p_data = *front;
+    while (p_data != nullptr) {
+        //std::cout << p_data -> next << " " << &rear << std::endl;
+        std::cout << p_data->data << std::endl;
+        p_data = p_data->next;
+    }
+}
+
+/**
+ * @brief Navigates through a linked list and prints its data starting from the rear
+ * @param rear: a pointer that points to the last node in the list
+ */
+void navigate_list_backwards(node **rear) {
+
+    std::cout << "Navigating linked list backwards: " << std::endl;
+    node *p_data;
+    p_data = *rear;
+    while (p_data != nullptr) {
+        std::cout << p_data->data << std::endl;
+        p_data = p_data->prev;
+    }
+}
+
+/**
+ * @brief adds a new node to the front of a linked list with data (data gets moved to the left of the most recent node).
+ * @param front: a pointer that points to the first node in the list
+ * @param rear:  a pointer that points to the last node in the list
+ * @param data: an integer that will be held in the node
  */
 void insert_front(node **front, node **rear, int data) {
 
@@ -63,29 +96,12 @@ void insert_front(node **front, node **rear, int data) {
     }
 }
 
-void navigate_list_forward(node **front) {
-
-    std::cout << "Navigating linked list forwards: " << std::endl;
-    node *p_data = new node;
-    p_data = *front;
-    while (p_data != nullptr) {
-        //std::cout << p_data -> next << " " << &rear << std::endl;
-        std::cout << p_data->data << std::endl;
-        p_data = p_data->next;
-    }
-}
-
-void navigate_list_backwards(node **rear) {
-
-    std::cout << "Navigating linked list backwards: " << std::endl;
-    node *p_data;
-    p_data = *rear;
-    while (p_data != nullptr) {
-        std::cout << p_data->data << std::endl;
-        p_data = p_data->prev;
-    }
-}
-
+/**
+ * @brief adds a new node to the end of a linked list (data gets moved to the right of the most recent node).
+ * @param front: a pointer that points to the first node in the list
+ * @param rear:  a pointer that points to the last node in the list
+ * @param data: an integer that will be held in the node
+ */
 void insert_rear(node **front, node **rear, int data) {
     node *p_data = new node;
     p_data -> data = data;
@@ -101,8 +117,6 @@ void insert_rear(node **front, node **rear, int data) {
     }
 }
 
-void insert_rear(void *data);
-
 int remove_front_i();
 
 void *remove_front_p();
@@ -111,4 +125,19 @@ int remove_rear_i();
 
 void *remove_rear_p();
 
-int empty();
+/**
+ * @brief checks to see if a linked list is empty by using the front pointer
+ * @param front: a pointer that points to the first node in a linked list (if it exists)
+ * @return true or false, depending on whether the node is empty or not
+ */
+bool empty(node **front) {
+
+    if(*front == nullptr) { //If the front pointer doesnt point to anything, there isn't data anywhere else
+        std::cout << "Linked list is empty" << std::endl;
+        return true;
+    }
+    else {
+        std::cout << "Linked list is not empty" << std::endl;
+        return false;
+    }
+}
