@@ -14,9 +14,7 @@ void navigate_list_backwards(node **rear);
 
 void insert_rear(node **front, node **rear, int data);
 
-void insert_rear(void *data);
-
-int remove_front_i();
+int remove_front_i(node **front, node **rear);
 
 void *remove_front_p();
 

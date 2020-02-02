@@ -33,8 +33,9 @@ int main() {
     insert_front(&front, &rear, 5);
     insert_front(&front, &rear, 7);
     insert_front(&front, &rear, 10);
-    empty(&front);
 
+    remove_front_i(&front, &rear);
+    empty(&rear);
     navigate_list_forward(&front);
     navigate_list_backwards(&rear);
     return 0;
@@ -83,7 +84,7 @@ void insert_front(node **front, node **rear, int data) {
     p_data->data = data;
     //std::cout << "Front " << *front << std::endl; //Proof that front is null at the beginning
     if (*front == nullptr) { // Special case
-        *front = *rear = p_data; //does being equal to P_data make front and rear point to p_data or a new node data?
+        *front = *rear = p_data;
         std::cout << "Front: " << front << std::endl;    //Prints what the variable front is storing
         std::cout << "Front&: " << &front << std::endl;  //Gets the address of &front
         std::cout << "Front*: " << *front << std::endl;  //gets the value *Front is pointing to
@@ -117,7 +118,38 @@ void insert_rear(node **front, node **rear, int data) {
     }
 }
 
-int remove_front_i();
+/**
+ * @brief Removes the front node of a linked list and returns the integer value it stored. pointers pointing to the
+ * previous node are deleted
+ * @param front: a pointer that points to the first node in the list
+ * @param rear:  a pointer that points to the last node in the list
+ * @return an integer that was stored in the node being deleted
+ */
+int remove_front_i(node **front, node **rear) {
+
+    node *p_data = new node;
+
+    int hold = 0;
+    if(*front == nullptr) {
+        std::cout << "Linked List is already empty" << std::endl;
+    }
+    else if(*front == *rear) {
+        hold = (*front)->data;
+        p_data = *front;
+        delete p_data;
+        *front = p_data = nullptr;
+    }
+    else {
+        hold = p_data->data;
+        p_data = p_data->next;
+        *front = (*front)->next;
+        (*front)->prev = nullptr;
+        delete p_data->prev;
+        delete p_data;
+        p_data = nullptr; //Just in case we try to access p_data
+    }
+    return hold;
+}
 
 void *remove_front_p();
 
