@@ -15,13 +15,23 @@ struct node {
 
 #include "Prototypes.h"
 
+/*class List {
+private:
+    node *front = new node;
+    node *rear = new node;
+    int size = 0;
+public:
+    List();
+    int main();
+    static void insert_front(node **front, node **rear, int data);
+};*/
+
 /**
  * @brief calls all linked list functions
  * @definition Linked List: A collection of nodes that together form a linear ordering. Each node stores a pointer,
  * called next, to the next node of the list.
  * @return
  */
-
 int main() {
 
     node *front = new node;
@@ -34,7 +44,8 @@ int main() {
     insert_front(&front, &rear, 7);
     insert_front(&front, &rear, 10);
 
-    remove_front_i(&front, &rear);
+    //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
+    //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
     empty(&rear);
     navigate_list_forward(&front);
     navigate_list_backwards(&rear);
@@ -134,13 +145,13 @@ int remove_front_i(node **front, node **rear) {
         std::cout << "Linked List is already empty" << std::endl;
     }
     else if(*front == *rear) {
-        hold = (*front)->data;
+        hold = (*front)->data; //not p_data->data because it gives garbage
         p_data = *front;
         delete p_data;
         *front = p_data = nullptr;
     }
     else {
-        hold = p_data->data;
+        hold = (*front)->data;
         p_data = p_data->next;
         *front = (*front)->next;
         (*front)->prev = nullptr;
@@ -153,7 +164,27 @@ int remove_front_i(node **front, node **rear) {
 
 void *remove_front_p();
 
-int remove_rear_i();
+int remove_rear_i(node **front, node **rear) {
+
+    int hold = 0;
+    node *p_data = new node;
+    if(*front == nullptr) {
+        std::cout << "Empty linked list" << std::endl;
+    }
+    else if(*front == *rear) {
+        hold = (*rear)->data;
+        delete p_data;
+        *front = *rear = nullptr;
+    }
+    else {
+        hold = (*rear)->data;
+        *rear = (*rear)->prev;
+        delete (*rear)->next;
+        (*rear)->next = nullptr;
+        //size--;
+    }
+    return hold;
+}
 
 void *remove_rear_p();
 

@@ -18,7 +18,7 @@ int remove_front_i(node **front, node **rear);
 
 void *remove_front_p();
 
-int remove_rear_i();
+int remove_rear_i(node **front, node **rear);
 
 void *remove_rear_p();
 
