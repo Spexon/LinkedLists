@@ -16,7 +16,7 @@ void insert_rear(node **front, node **rear, int data);
 
 int remove_front_i(node **front, node **rear);
 
-void *remove_front_p();
+void *remove_front_p(node **front, node **rear);
 
 int remove_rear_i(node **front, node **rear);
 

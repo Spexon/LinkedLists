@@ -44,8 +44,10 @@ int main() {
     insert_front(&front, &rear, 7);
     insert_front(&front, &rear, 10);
 
-    //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
+    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
     //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
+    remove_front_p(&front, &rear);
+
     empty(&rear);
     navigate_list_forward(&front);
     navigate_list_backwards(&rear);
@@ -116,13 +118,12 @@ void insert_front(node **front, node **rear, int data) {
  */
 void insert_rear(node **front, node **rear, int data) {
     node *p_data = new node;
-    p_data -> data = data;
-    p_data -> next = nullptr;
-    if(*front == nullptr) {
+    p_data->data = data;
+    p_data->next = nullptr;
+    if (*front == nullptr) {
         *front = *rear = p_data;
         p_data->next = p_data->prev = nullptr;
-    }
-    else {
+    } else {
         p_data->prev = *rear;
         (*rear)->next = p_data;
         *rear = (*rear)->next;
@@ -141,16 +142,14 @@ int remove_front_i(node **front, node **rear) {
     node *p_data = new node;
 
     int hold = 0;
-    if(*front == nullptr) {
+    if (*front == nullptr) {
         std::cout << "Linked List is already empty" << std::endl;
-    }
-    else if(*front == *rear) {
+    } else if (*front == *rear) {
         hold = (*front)->data; //not p_data->data because it gives garbage
         p_data = *front;
         delete p_data;
         *front = p_data = nullptr;
-    }
-    else {
+    } else {
         hold = (*front)->data;
         p_data = p_data->next;
         *front = (*front)->next;
@@ -162,21 +161,29 @@ int remove_front_i(node **front, node **rear) {
     return hold;
 }
 
-void *remove_front_p();
+void *remove_front_p(node **front, node **rear) {
 
+
+}
+
+/**
+ * @brief Removes the last node in the linked list and returns its integer value. pointers pointing to the next node
+ * are deleted and set to null
+ * @param front: a pointer that points to the first node in the list
+ * @param rear:  a pointer that points to the last node in the list
+ * @return An integer that was stored in the node being deleted
+ */
 int remove_rear_i(node **front, node **rear) {
 
     int hold = 0;
     node *p_data = new node;
-    if(*front == nullptr) {
+    if (*front == nullptr) {
         std::cout << "Empty linked list" << std::endl;
-    }
-    else if(*front == *rear) {
+    } else if (*front == *rear) {
         hold = (*rear)->data;
         delete p_data;
         *front = *rear = nullptr;
-    }
-    else {
+    } else {
         hold = (*rear)->data;
         *rear = (*rear)->prev;
         delete (*rear)->next;
@@ -195,11 +202,10 @@ void *remove_rear_p();
  */
 bool empty(node **front) {
 
-    if(*front == nullptr) { //If the front pointer doesnt point to anything, there isn't data anywhere else
+    if (*front == nullptr) { //If the front pointer doesnt point to anything, there isn't data anywhere else
         std::cout << "Linked list is empty" << std::endl;
         return true;
-    }
-    else {
+    } else {
         std::cout << "Linked list is not empty" << std::endl;
         return false;
     }
