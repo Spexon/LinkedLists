@@ -21,30 +21,57 @@ struct pointer_node {
 
 #include "Prototypes.h"
 
-/*class List {
-private:
-    node *front = new node;
-    node *rear = new node;
-    int size = 0;
-public:
-    List();
-    int main();
-    static void insert_front(node **front, node **rear, int data);
-};*/
-
 /**
- * @brief calls all linked list functions, this is where the test cases are.
+ * @brief calls all linked list functions, this is where the test cases are. Doesnt compile
  * @definition Linked List: A collection of nodes that together form a linear ordering. Each node stores a pointer,
  * called next, to the next node of the list.
- * @return
+ */
+/*class main {
+public:
+    node *front, *rear = new node;
+    pointer_node *p_front, *p_rear = new pointer_node;
+    int size = 0;
+
+    main() {
+
+        front->next = nullptr;
+        front->prev = nullptr;
+        rear->next = nullptr;
+        rear->prev = nullptr;
+        front = rear = nullptr;
+    }
+};
+
+void double_linked_list() {
+
+    main a_main;
+    empty(&a_main.front);
+    insert_rear(&a_main.front, &a_main.rear, 16);
+    insert_rear(&a_main.front, &a_main.rear, 12);
+    insert_front(&a_main.front, &a_main.rear, 5);
+    insert_front(&a_main.front, &a_main.rear, 7);
+    insert_front(&a_main.front, &a_main.rear, 10);
+
+    //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
+    //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
+    //std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl;
+    std::cout << "Removed pointer address: " << remove_rear_p(&a_main.p_front, &a_main.p_rear) << std::endl;
+
+    empty(&a_main.rear);
+    navigate_list_forward(&a_main.front);
+    navigate_list_backwards(&a_main.rear);
+}*/
+/**
+ * @brief calls all linked list functions, this is where the test cases are. Doesnt compile
+ * @definition Linked List: A collection of nodes that together form a linear ordering. Each node stores a pointer,
+ * called next, to the next node of the list.
  */
 int main() {
-
-    node *front = new node;
-    node *rear = new node;
-    auto *p_front = new pointer_node;
-    auto *p_rear = new pointer_node;
+    node *front, *rear = new node;
     front = rear = nullptr;
+    auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses
+    auto *p_rear = new pointer_node;
+
     empty(&front);
     insert_rear(&front, &rear, 16);
     insert_rear(&front, &rear, 12);
@@ -60,7 +87,6 @@ int main() {
     empty(&rear);
     navigate_list_forward(&front);
     navigate_list_backwards(&rear);
-    return 0;
 }
 
 /**
@@ -188,7 +214,8 @@ void *remove_front_p(pointer_node **p_front, pointer_node **p_rear) {
     } else {
         void_data = (*p_front)->data_pointer;
         *p_front = (*p_front)->next;
-        delete (*p_front)->prev;
+        //delete (*p_front)->prev;
+        //(*p_front)->prev = nullptr;
     }
     return void_data;
 }
