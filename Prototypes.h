@@ -6,13 +6,17 @@
 #define COP_3530__ALGORITHMS__PROTOTYPES_H
 
 //Prototype Functions (gives the compiler a heads up about the upcoming function):
-void insert_front(node **front, node **rear, int data);
-
 void navigate_list_forward(node **front);
 
 void navigate_list_backwards(node **rear);
 
+void insert_front(node **front, node **rear, int data);
+
+void insert_front_p(node **front, node **rear, void *data);
+
 void insert_rear(node **front, node **rear, int data);
+
+void insert_rear_p(node **front, node **rear, void *data);
 
 int remove_front_i(node **front, node **rear);
 
@@ -23,5 +27,7 @@ int remove_rear_i(node **front, node **rear);
 void *remove_rear_p(pointer_node **p_front, pointer_node **p_rear);
 
 bool empty(node **front);
+
+void empty_list(node **front, node **rear);
 
 #endif //COP_3530__ALGORITHMS__PROTOTYPES_H

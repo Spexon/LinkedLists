@@ -72,21 +72,40 @@ int main() {
     auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses
     auto *p_rear = new pointer_node;
 
-    empty(&front);
-    insert_rear(&front, &rear, 16);
-    insert_rear(&front, &rear, 12);
+    //Insert Front
+    insert_front(&front, &rear, 5); //Test case 1: empty list
+    insert_front(&front, &rear, 7); //Test case 2: list has elements
+    navigate_list_forward(&front);
+
+    //Insert Rear
+    empty_list(&front, &rear);
+    insert_rear(&front, &rear, 16); //Test case 1: empty list
+    insert_rear(&front, &rear, 12); //Test case 2: list has elements
+    navigate_list_forward(&front);
+
+    //Remove Front
+    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 1: Multiple elements
+    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 2: 1 element
+    empty_list(&front, &rear);
+    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 3: no elements
+    std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl; //Test case 4: remove pointer address
+    navigate_list_forward(&front);
+
+    //Remove Rear
+    std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 1: no elements
     insert_front(&front, &rear, 5);
     insert_front(&front, &rear, 7);
-    insert_front(&front, &rear, 10);
-
-    //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
-    //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
-    //std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl;
-    std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl;
-
-    empty(&rear);
+    std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 2: multiple elements
+    std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 3: 1 element
+    std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl; //Test case 4: remove pointer address
     navigate_list_forward(&front);
-    navigate_list_backwards(&rear);
+
+    //Empty check
+    empty(&front); //Test case 1: No elements
+    navigate_list_forward(&front);
+    insert_front(&front, &rear, 10);
+    empty(&front); //Test case 2: has elements
+    navigate_list_forward(&front);
 }
 
 /**
@@ -96,12 +115,17 @@ int main() {
 void navigate_list_forward(node **front) {
 
     std::cout << "Navigating linked list forwards: " << std::endl;
-    node *p_data = new node;
-    p_data = *front;
-    while (p_data != nullptr) {
-        //std::cout << p_data -> next << " " << &rear << std::endl;
-        std::cout << p_data->data << std::endl;
-        p_data = p_data->next;
+    if(empty(front)) {
+        std::cout << "---" << std::endl;
+    }
+    else {
+        node *p_data = new node;
+        p_data = *front;
+        while (p_data != nullptr) {
+            //std::cout << p_data -> next << " " << &rear << std::endl;
+            std::cout << p_data->data << std::endl;
+            p_data = p_data->next;
+        }
     }
 }
 
@@ -133,15 +157,31 @@ void insert_front(node **front, node **rear, int data) {
     //std::cout << "Front " << *front << std::endl; //Proof that front is null at the beginning
     if (*front == nullptr) { // Special case
         *front = *rear = p_data;
-        std::cout << "Front: " << front << std::endl;    //Prints what the variable front is storing
-        std::cout << "Front&: " << &front << std::endl;  //Gets the address of &front
-        std::cout << "Front*: " << *front << std::endl;  //gets the value *Front is pointing to
+        //std::cout << "Front: " << front << std::endl;    //Prints what the variable front is storing
+        //std::cout << "Front&: " << &front << std::endl;  //Gets the address of &front
+        //std::cout << "Front*: " << *front << std::endl;  //gets the value *Front is pointing to
         p_data->next = nullptr;
         p_data->prev = nullptr;
     } else { // One or more nodes (general case)
         p_data->next = *front; //This moves the link of the new node to the next node
         (*front)->prev = p_data; //The -> is happening before the *, so the compiler is trying to use -> get_data on a Node<NODETYPE> ** which doesn't work.
         *front = p_data; //The value front is pointing to is assigned p_data
+    }
+}
+
+void insert_front_p(pointer_node **p_front, pointer_node **p_rear, void *void_data) {
+
+    pointer_node *p_data;
+    p_data->data_pointer = void_data;
+    if (*p_front == nullptr) {
+        *p_front = *p_rear = p_data;
+        p_data->next = nullptr;
+        p_data->prev = nullptr;
+    }
+    else {
+        p_data->next = *p_front;
+        (*p_front)->prev = p_data;
+        *p_front = p_data;
     }
 }
 
@@ -163,6 +203,11 @@ void insert_rear(node **front, node **rear, int data) {
         (*rear)->next = p_data;
         *rear = (*rear)->next;
     }
+}
+
+void insert_rear_p(pointer_node **p_front, pointer_node **p_rear, void *void_data) {
+
+
 }
 
 /**
@@ -287,4 +332,12 @@ bool empty(node **front) {
         std::cout << "Linked list is not empty" << std::endl;
         return false;
     }
+}
+
+void empty_list(node **front, node **rear) {
+
+    while(*front != nullptr) {
+        std::cout << remove_front_i(front, rear) << std::endl; //Test case 2: no elements
+    }
+    //std::cout << "cleared"  << std::endl; //Test case 2: no elements
 }
