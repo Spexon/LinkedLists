@@ -9,9 +9,15 @@ struct node {
     int data;
     node *next; //This may need to be swapped with prev
     node *prev;
-
-    //friend class double_linked_list;
 };
+
+struct pointer_node {
+
+    void *data_pointer;
+    pointer_node *next;
+    pointer_node *prev;
+};
+
 
 #include "Prototypes.h"
 
@@ -27,7 +33,7 @@ public:
 };*/
 
 /**
- * @brief calls all linked list functions
+ * @brief calls all linked list functions, this is where the test cases are.
  * @definition Linked List: A collection of nodes that together form a linear ordering. Each node stores a pointer,
  * called next, to the next node of the list.
  * @return
@@ -36,6 +42,8 @@ int main() {
 
     node *front = new node;
     node *rear = new node;
+    auto *p_front = new pointer_node;
+    auto *p_rear = new pointer_node;
     front = rear = nullptr;
     empty(&front);
     insert_rear(&front, &rear, 16);
@@ -44,9 +52,12 @@ int main() {
     insert_front(&front, &rear, 7);
     insert_front(&front, &rear, 10);
 
-    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
+    //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
     //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
-    remove_front_p(&front, &rear);
+    std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl;
+    //std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl;
+
+
 
     empty(&rear);
     navigate_list_forward(&front);
@@ -140,7 +151,6 @@ void insert_rear(node **front, node **rear, int data) {
 int remove_front_i(node **front, node **rear) {
 
     node *p_data = new node;
-
     int hold = 0;
     if (*front == nullptr) {
         std::cout << "Linked List is already empty" << std::endl;
@@ -151,19 +161,38 @@ int remove_front_i(node **front, node **rear) {
         *front = p_data = nullptr;
     } else {
         hold = (*front)->data;
-        p_data = p_data->next;
         *front = (*front)->next;
         (*front)->prev = nullptr;
-        delete p_data->prev;
-        delete p_data;
         p_data = nullptr; //Just in case we try to access p_data
+        //delete p_data->prev;
+        delete p_data;
     }
     return hold;
 }
 
-void *remove_front_p(node **front, node **rear) {
+/**
+ * @brief A void* does not mean anything. It is a pointer, but the type that it points to is not known.
+ * @param front: a pointer that points to the first node in the list
+ * @param rear:  a pointer that points to the last node in the list
+ * @return It returns a pointer to storage that contains an object of a known type
+ */
+void *remove_front_p(pointer_node **p_front, pointer_node **p_rear) {
 
-
+    pointer_node *p_data = new pointer_node;
+    void *void_data = nullptr;
+    if (*p_front == nullptr) {
+        std::cout << "Linked List is already empty" << std::endl;
+    } else if (*p_front == *p_rear) {
+        void_data = (*p_front)->data_pointer; //not p_data->data because it gives garbage
+        p_data = *p_front;
+        delete p_data;
+        *p_front = p_data = nullptr;
+    } else {
+        void_data = (*p_front)->data_pointer;
+        *p_front = (*p_front)->next;
+        delete (*p_front)->prev;
+    }
+    return void_data;
 }
 
 /**
