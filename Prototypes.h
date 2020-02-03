@@ -20,7 +20,7 @@ void *remove_front_p(pointer_node **front, pointer_node **rear);
 
 int remove_rear_i(node **front, node **rear);
 
-void *remove_rear_p();
+void *remove_rear_p(pointer_node **p_front, pointer_node **p_rear);
 
 bool empty(node **front);
 

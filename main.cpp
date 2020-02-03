@@ -54,10 +54,8 @@ int main() {
 
     //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
     //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
-    std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl;
-    //std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl;
-
-
+    //std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl;
+    std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl;
 
     empty(&rear);
     navigate_list_forward(&front);
@@ -171,14 +169,14 @@ int remove_front_i(node **front, node **rear) {
 }
 
 /**
- * @brief A void* does not mean anything. It is a pointer, but the type that it points to is not known.
- * @param front: a pointer that points to the first node in the list
- * @param rear:  a pointer that points to the last node in the list
+ * @brief Removes the front address of data that a pointer points to A void* does not mean anything. It is a pointer, but the type that it points to is not known.
+ * @param p_front: a pointer that points to the first node in the list
+ * @param p_rear:  a pointer that points to the last node in the list
  * @return It returns a pointer to storage that contains an object of a known type
  */
 void *remove_front_p(pointer_node **p_front, pointer_node **p_rear) {
 
-    pointer_node *p_data = new pointer_node;
+    pointer_node *p_data;
     void *void_data = nullptr;
     if (*p_front == nullptr) {
         std::cout << "Linked List is already empty" << std::endl;
@@ -222,7 +220,31 @@ int remove_rear_i(node **front, node **rear) {
     return hold;
 }
 
-void *remove_rear_p();
+/**
+ * @brief Removes the rear address a pointer points to
+ * @param p_front: a pointer that points to the first node in the list
+ * @param p_rear:  a pointer that points to the last node in the list
+ * @return It returns a pointer to storage that contains an object of a known type
+ */
+void *remove_rear_p(pointer_node **p_front, pointer_node **p_rear) {
+
+    pointer_node *p_data;
+    void *void_data = nullptr;
+    if (*p_front == nullptr) {
+        std::cout << "Linked List is already empty" << std::endl;
+    } else if (*p_front == *p_rear) {
+        void_data = (*p_rear)->data_pointer; //not p_data->data because it gives garbage
+        p_data = *p_rear;
+        delete p_data;
+        *p_front = p_data = nullptr;
+    } else {
+        void_data = (*p_rear)->data_pointer;
+        *p_front = (*p_rear)->prev;
+        delete (*p_rear)->next;
+        (*p_rear)->next = nullptr;
+    }
+    return void_data;
+}
 
 /**
  * @brief checks to see if a linked list is empty by using the front pointer
