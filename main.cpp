@@ -7,7 +7,7 @@
 struct node {
 
     int data;
-    node *next; //This may need to be swapped with prev
+    node *next;
     node *prev;
 };
 
@@ -67,44 +67,52 @@ void double_linked_list() {
  * called next, to the next node of the list.
  */
 int main() {
+
     node *front, *rear = new node;
     front = rear = nullptr;
-    auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses
+    auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses (set to 0)
     auto *p_rear = new pointer_node;
 
     //Insert Front
-    insert_front(&front, &rear, 5); //Test case 1: empty list
+    /*insert_front(&front, &rear, 5); //Test case 1: empty list
+    navigate_list_forward(&front);
     insert_front(&front, &rear, 7); //Test case 2: list has elements
     navigate_list_forward(&front);
 
     //Insert Rear
     empty_list(&front, &rear);
     insert_rear(&front, &rear, 16); //Test case 1: empty list
+    navigate_list_forward(&front);
     insert_rear(&front, &rear, 12); //Test case 2: list has elements
     navigate_list_forward(&front);
 
     //Remove Front
+    insert_front(&front, &rear, 5);
+    insert_front(&front, &rear, 10);
+    navigate_list_forward(&front);
     std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 1: Multiple elements
+    navigate_list_forward(&front);
     std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 2: 1 element
     empty_list(&front, &rear);
     std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 3: no elements
     std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl; //Test case 4: remove pointer address
-    navigate_list_forward(&front);
 
     //Remove Rear
     std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 1: no elements
     insert_front(&front, &rear, 5);
     insert_front(&front, &rear, 7);
+    navigate_list_forward(&front);
     std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 2: multiple elements
+    navigate_list_forward(&front);
     std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 3: 1 element
     std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl; //Test case 4: remove pointer address
     navigate_list_forward(&front);
-
+*/
     //Empty check
-    empty(&front); //Test case 1: No elements
+    empty(&front, true); //Test case 1: No elements
     navigate_list_forward(&front);
     insert_front(&front, &rear, 10);
-    empty(&front); //Test case 2: has elements
+    empty(&front, true); //Test case 2: has elements
     navigate_list_forward(&front);
 }
 
@@ -115,10 +123,9 @@ int main() {
 void navigate_list_forward(node **front) {
 
     std::cout << "Navigating linked list forwards: " << std::endl;
-    if(empty(front)) {
+    if (empty(front, false)) {
         std::cout << "---" << std::endl;
-    }
-    else {
+    } else {
         node *p_data = new node;
         p_data = *front;
         while (p_data != nullptr) {
@@ -177,8 +184,7 @@ void insert_front_p(pointer_node **p_front, pointer_node **p_rear, void *void_da
         *p_front = *p_rear = p_data;
         p_data->next = nullptr;
         p_data->prev = nullptr;
-    }
-    else {
+    } else {
         p_data->next = *p_front;
         (*p_front)->prev = p_data;
         *p_front = p_data;
@@ -323,20 +329,29 @@ void *remove_rear_p(pointer_node **p_front, pointer_node **p_rear) {
  * @param front: a pointer that points to the first node in a linked list (if it exists)
  * @return true or false, depending on whether the node is empty or not
  */
-bool empty(node **front) {
+bool empty(node **front, bool output_text) {
 
     if (*front == nullptr) { //If the front pointer doesnt point to anything, there isn't data anywhere else
-        std::cout << "Linked list is empty" << std::endl;
+        if (output_text) {
+            std::cout << "Linked list is empty" << std::endl;
+        }
         return true;
     } else {
-        std::cout << "Linked list is not empty" << std::endl;
+        if (output_text) {
+            std::cout << "Linked list is not empty" << std::endl;
+        }
         return false;
     }
 }
 
+/**
+ * @brief Removes all nodes in a linked list
+ * @param front: a pointer that points to the first node in the list
+ * @param rear:  a pointer that points to the last node in the list
+ */
 void empty_list(node **front, node **rear) {
 
-    while(*front != nullptr) {
+    while (*front != nullptr) {
         std::cout << remove_front_i(front, rear) << std::endl; //Test case 2: no elements
     }
     //std::cout << "cleared"  << std::endl; //Test case 2: no elements

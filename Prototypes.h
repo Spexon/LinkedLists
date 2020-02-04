@@ -26,7 +26,7 @@ int remove_rear_i(node **front, node **rear);
 
 void *remove_rear_p(pointer_node **p_front, pointer_node **p_rear);
 
-bool empty(node **front);
+bool empty(node **front, bool output_text);
 
 void empty_list(node **front, node **rear);
 
