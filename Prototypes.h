@@ -30,4 +30,8 @@ bool empty(node **front, bool output_text);
 
 void empty_list(node **front, node **rear);
 
+void reverse_list(node **front, node **rear);
+
+void read_file(const std::string& file_name);
+
 #endif //COP_3530__ALGORITHMS__PROTOTYPES_H

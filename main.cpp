@@ -2,6 +2,8 @@
  * @Author Vladimir Hardy
  */
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 // To access members of a structure, use the dot operator. To access members of a structure through a pointer, use the arrow operator.
 struct node {
@@ -17,7 +19,6 @@ struct pointer_node {
     pointer_node *next;
     pointer_node *prev;
 };
-
 
 #include "Prototypes.h"
 
@@ -74,46 +75,13 @@ int main() {
     auto *p_rear = new pointer_node;
 
     //Insert Front
-    /*insert_front(&front, &rear, 5); //Test case 1: empty list
-    navigate_list_forward(&front);
+    insert_front(&front, &rear, 5); //Test case 1: empty list
     insert_front(&front, &rear, 7); //Test case 2: list has elements
+    insert_front(&front, &rear, 8);
     navigate_list_forward(&front);
 
-    //Insert Rear
-    empty_list(&front, &rear);
-    insert_rear(&front, &rear, 16); //Test case 1: empty list
-    navigate_list_forward(&front);
-    insert_rear(&front, &rear, 12); //Test case 2: list has elements
-    navigate_list_forward(&front);
-
-    //Remove Front
-    insert_front(&front, &rear, 5);
-    insert_front(&front, &rear, 10);
-    navigate_list_forward(&front);
-    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 1: Multiple elements
-    navigate_list_forward(&front);
-    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 2: 1 element
-    empty_list(&front, &rear);
-    std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl; //Test case 3: no elements
-    std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl; //Test case 4: remove pointer address
-
-    //Remove Rear
-    std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 1: no elements
-    insert_front(&front, &rear, 5);
-    insert_front(&front, &rear, 7);
-    navigate_list_forward(&front);
-    std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 2: multiple elements
-    navigate_list_forward(&front);
-    std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl; //Test case 3: 1 element
-    std::cout << "Removed pointer address: " << remove_rear_p(&p_front, &p_rear) << std::endl; //Test case 4: remove pointer address
-    navigate_list_forward(&front);
-*/
-    //Empty check
-    empty(&front, true); //Test case 1: No elements
-    navigate_list_forward(&front);
-    insert_front(&front, &rear, 10);
-    empty(&front, true); //Test case 2: has elements
-    navigate_list_forward(&front);
+    std::string my_file = "test_file.txt";
+    read_file(my_file);
 }
 
 /**
@@ -349,10 +317,45 @@ bool empty(node **front, bool output_text) {
  * @param front: a pointer that points to the first node in the list
  * @param rear:  a pointer that points to the last node in the list
  */
-void empty_list(node **front, node **rear) {
+void empty_the_list(node **front, node **rear) {
 
     while (*front != nullptr) {
         std::cout << remove_front_i(front, rear) << std::endl; //Test case 2: no elements
     }
     //std::cout << "cleared"  << std::endl; //Test case 2: no elements
+}
+
+/**
+ * @brief supposed to reverse the order of a list, but only prints 1 value
+ * @param front
+ * @param rear
+ */
+void reverse_list(node **front, node **rear) {
+    node *p_data, *q_data, *r_data = new node;
+    p_data = *front;
+    q_data = p_data->next;
+    r_data = q_data->next;
+    (*front)->next = nullptr;
+    while(q_data->next != nullptr) {
+        q_data->next = p_data;
+        p_data = q_data, q_data = r_data, r_data = r_data->next;
+    }
+    std::cout << "List reversed" << std::endl;
+}
+
+
+void read_file(const std::string& file_name) {
+    std::ifstream file_to_be_read; //REMEMBER: Files are stored in cmake-build-debug
+    file_to_be_read.open(file_name, std::ios_base::app);
+    std::string line;
+    if(file_to_be_read.is_open()) {
+        while(std::getline(file_to_be_read,line)) {
+
+            std::cout << line << std::endl;
+        }
+    }
+    else {
+        std::cout << "Unable to open file " << file_name << std::endl;
+    }
+    file_to_be_read.close();
 }
