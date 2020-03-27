@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <cstring>
+#include <vector>
 
 // To access members of a structure, use the dot operator. To access members of a structure through a pointer, use the arrow operator.
 struct node {
@@ -68,7 +70,7 @@ void double_linked_list() {
  * called next, to the next node of the list.
  */
 int main() {
-
+    std::vector<std::string> file_vector_for_linked_list;
     node *front, *rear = new node;
     front = rear = nullptr;
     auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses (set to 0)
@@ -81,7 +83,11 @@ int main() {
     navigate_list_forward(&front);
 
     std::string my_file = "test_file.txt";
-    read_file(my_file);
+    file_vector_for_linked_list = read_file(my_file, file_vector_for_linked_list);
+    for(std::string &i : file_vector_for_linked_list) {
+        std::cout << i << std::endl;
+    }
+    //Assign vector to linked list here
 }
 
 /**
@@ -344,18 +350,19 @@ void reverse_list(node **front, node **rear) {
 }
 
 
-void read_file(const std::string& file_name) {
+std::vector<std::string> read_file(const std::string& file_name, std::vector<std::string> file_vector) {
     std::ifstream file_to_be_read; //REMEMBER: Files are stored in cmake-build-debug
     file_to_be_read.open(file_name, std::ios_base::app);
     std::string line;
     if(file_to_be_read.is_open()) {
-        while(std::getline(file_to_be_read,line)) {
-
-            std::cout << line << std::endl;
+        while(std::getline(file_to_be_read,line, ' ')) {
+            file_vector.push_back(line);
+            //std::cout << line << std::endl;
         }
     }
     else {
         std::cout << "Unable to open file " << file_name << std::endl;
     }
     file_to_be_read.close();
+    return file_vector;
 }

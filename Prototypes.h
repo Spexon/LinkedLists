@@ -32,6 +32,6 @@ void empty_list(node **front, node **rear);
 
 void reverse_list(node **front, node **rear);
 
-void read_file(const std::string& file_name);
+std::vector<std::string> read_file(const std::string& file_name, std::vector<std::string> file_vector);
 
 #endif //COP_3530__ALGORITHMS__PROTOTYPES_H
