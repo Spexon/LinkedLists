@@ -23,71 +23,42 @@ struct pointer_node {
 };
 
 #include "Prototypes.h"
+#include "tree.cpp"
+
 
 /**
- * @brief calls all linked list functions, this is where the test cases are. Doesnt compile
- * @definition Linked List: A collection of nodes that together form a linear ordering. Each node stores a pointer,
- * called next, to the next node of the list.
- */
-/*class main {
-public:
-    node *front, *rear = new node;
-    pointer_node *p_front, *p_rear = new pointer_node;
-    int size = 0;
-
-    main() {
-
-        front->next = nullptr;
-        front->prev = nullptr;
-        rear->next = nullptr;
-        rear->prev = nullptr;
-        front = rear = nullptr;
-    }
-};
-
-void double_linked_list() {
-
-    main a_main;
-    empty(&a_main.front);
-    insert_rear(&a_main.front, &a_main.rear, 16);
-    insert_rear(&a_main.front, &a_main.rear, 12);
-    insert_front(&a_main.front, &a_main.rear, 5);
-    insert_front(&a_main.front, &a_main.rear, 7);
-    insert_front(&a_main.front, &a_main.rear, 10);
-
-    //std::cout << "Removed: " << remove_front_i(&front, &rear) << std::endl;
-    //std::cout << "Removed: " << remove_rear_i(&front, &rear) << std::endl;
-    //std::cout << "Removed pointer address: " << remove_front_p(&p_front, &p_rear) << std::endl;
-    std::cout << "Removed pointer address: " << remove_rear_p(&a_main.p_front, &a_main.p_rear) << std::endl;
-
-    empty(&a_main.rear);
-    navigate_list_forward(&a_main.front);
-    navigate_list_backwards(&a_main.rear);
-}*/
-/**
- * @brief calls all linked list functions, this is where the test cases are. Doesnt compile
+ * @brief calls all linked list functions, this is where the test cases are.
  * @definition Linked List: A collection of nodes that together form a linear ordering. Each node stores a pointer,
  * called next, to the next node of the list.
  */
 int main() {
-    std::vector<std::string> file_vector_for_linked_list;
+    std::vector<std::string> file_vector_for_tree;
     node *front, *rear = new node;
     front = rear = nullptr;
     auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses (set to 0)
     auto *p_rear = new pointer_node;
 
-    //Insert Front
+    // Insert Front
     insert_front(&front, &rear, 5); //Test case 1: empty list
     insert_front(&front, &rear, 7); //Test case 2: list has elements
     insert_front(&front, &rear, 8);
     navigate_list_forward(&front);
 
+    // Read File
     std::string my_file = "test_file.txt";
-    file_vector_for_linked_list = read_file(my_file, file_vector_for_linked_list);
-    for(std::string &i : file_vector_for_linked_list) {
+    file_vector_for_tree = read_file(my_file, file_vector_for_tree);
+    for(std::string &i : file_vector_for_tree) {
         std::cout << i << std::endl;
     }
-    //Assign vector to linked list here
+    //create AVL tree from the words
+    tree AVL_tree;
+    tree_node tree_struct;
+    for(std::string &i : file_vector_for_tree) {
+        std::cout << "here" << std::endl;
+        //AVL_tree.insert_tree(,i); //dont use null pointer, or weird things happen
+    }
+
+
 }
 
 /**
@@ -364,5 +335,11 @@ std::vector<std::string> read_file(const std::string& file_name, std::vector<std
         std::cout << "Unable to open file " << file_name << std::endl;
     }
     file_to_be_read.close();
+    return file_vector;
+}
+
+std::vector<std::string> make_alphanumeric(std::vector<std::string> file_vector) {
+
+
     return file_vector;
 }
