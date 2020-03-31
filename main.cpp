@@ -51,10 +51,8 @@ int main() {
         std::cout << i << std::endl;
     }
     //create AVL tree from the words
-    tree AVL_tree;
-    tree_node tree_struct;
+    tree_node *root = nullptr;
     for(std::string &i : file_vector_for_tree) {
-        std::cout << "here" << std::endl;
         //AVL_tree.insert_tree(,i); //dont use null pointer, or weird things happen
     }
 

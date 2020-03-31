@@ -22,7 +22,7 @@ class tree {
 
 public:
     int node_height(tree_node *T) {
-        int returnval = -1;
+        int returnval = -1; // Allows math to work nicely for rotates
         if (T != nullptr) {
             returnval = T->height;
         }
@@ -75,18 +75,41 @@ public:
 
     void single_rotate_left(tree_node **T) {
         std::cout << "s_rotate_left" << std::endl;
+        tree_node *k1, *k2;
+        k2 = *T;
+        k1 = (*T)->Lchild;
+        k2->Lchild = k1->Rchild; // This confuses me, line below makes sense
+        //k2 = k1->Rchild;
+        *T = k1;
+        // Fix height
+        k2->height = std::max(node_height(k2->Lchild),node_height(k2->Rchild))+1;
+        k1->height = std::max(node_height(k1->Lchild),node_height(k1->Rchild))+1;
     }
 
     void single_rotate_right(tree_node **T) {
         std::cout << "s_rotate_right" << std::endl;
+        tree_node *k1, *k2;
+        k2 = *T;
+        k1 = k2->Rchild;
+        k2->Rchild = k1->Lchild;
+        *T = k1;
+        // Fix height
+        k2->height = std::max(node_height(k2->Lchild),node_height(k2->Rchild))+1; // not sure if this works
+        k1->height = std::max(node_height(k1->Lchild),node_height(k1->Rchild))+1;
     }
 
     void double_rotate_left(tree_node **T) {
         std::cout << "d_rotate_left" << std::endl;
+        single_rotate_right(&((*T)->Lchild));
+        single_rotate_left(T);
+        // No need to adjust height since functions already do it
     }
 
     void double_rotate_right(tree_node **T) {
         std::cout << "d_rotate_right" << std::endl;
+        single_rotate_left(&((*T)->Rchild));
+        single_rotate_right(T);
+        // No need to adjust height since functions already do it
     }
 
     void create_AVL_tree(const std::vector<std::string> &file_vector) {
