@@ -10,7 +10,7 @@
 // To access members of a structure, use the dot operator. To access members of a structure through a pointer, use the arrow operator.
 struct node {
 
-    int data;
+    std::string data;
     node *next;
     node *prev;
 };
@@ -33,35 +33,30 @@ struct pointer_node {
  */
 int main() {
     std::vector<std::string> file_vector_for_tree;
+    std::vector<std::string> sorted_vector;
     node *front, *rear = new node;
     front = rear = nullptr;
     auto *p_front = new pointer_node; //if you condense this declaration, it messes up addresses (set to 0)
     auto *p_rear = new pointer_node;
 
-    // Insert Front
-    insert_front(&front, &rear, 5); //Test case 1: empty list
-    insert_front(&front, &rear, 7); //Test case 2: list has elements
-    insert_front(&front, &rear, 8);
-    navigate_list_forward(&front);
 
     // Read File
     std::string my_file = "test_file.txt";
     file_vector_for_tree = read_file(my_file, file_vector_for_tree);
-    for(std::string &i : file_vector_for_tree) {
-        std::cout << i << std::endl;
+    
+    //sorted_vector = make_alphanumeric(file_vector_for_tree);
+    for(std::string &i : sorted_vector) {
+        //std::cout << i << std::endl;
     }
     //create AVL tree from the words
     tree AVL_tree;
     tree_node *root = nullptr;
     for(std::string i : file_vector_for_tree) { // Trying to call the AVL insert tree for each index in the vector
-        //AVL_tree.insert_tree("hello");
-        AVL_tree.insert_tree(&root,i); // Causes weird errors where I cannot run the program, accessing something i have no control over, when I edit the test_file?
-        //It seems that the 1 height nodes are being replaced with new data instead of percolating up
+
+        //AVL_tree.insert_tree(&root,i); // Causes weird errors where I cannot run the program, accessing something i have no control over, when I edit the test_file?
+        //It seems that the 1 height nodes are being replaced with new data instead of percolating up (occurs when given this error in degubber: -var-create: unable to create variable object)
     }
     std::cout << "Outside loop" << std::endl;
-//Welcome to my new file.
-//Where I will be writing out a couple of sentences to the console
-
 }
 
 /**
@@ -77,7 +72,6 @@ void navigate_list_forward(node **front) {
         node *p_data = new node;
         p_data = *front;
         while (p_data != nullptr) {
-            //std::cout << p_data -> next << " " << &rear << std::endl;
             std::cout << p_data->data << std::endl;
             p_data = p_data->next;
         }
@@ -105,7 +99,7 @@ void navigate_list_backwards(node **rear) {
  * @param rear:  a pointer that points to the last node in the list
  * @param data: an integer that will be held in the node
  */
-void insert_front(node **front, node **rear, int data) {
+void insert_front(node **front, node **rear, std::string data) {
 
     node *p_data = new node;
     p_data->data = data;
@@ -145,7 +139,7 @@ void insert_front_p(pointer_node **p_front, pointer_node **p_rear, void *void_da
  * @param rear:  a pointer that points to the last node in the list
  * @param data: an integer that will be held in the node
  */
-void insert_rear(node **front, node **rear, int data) {
+void insert_rear(node **front, node **rear, std::string data) {
     node *p_data = new node;
     p_data->data = data;
     p_data->next = nullptr;
@@ -171,10 +165,10 @@ void insert_rear_p(pointer_node **p_front, pointer_node **p_rear, void *void_dat
  * @param rear:  a pointer that points to the last node in the list
  * @return an integer that was stored in the node being deleted
  */
-int remove_front_i(node **front, node **rear) {
+std::string remove_front_i(node **front, node **rear) {
 
     node *p_data = new node;
-    int hold = 0;
+    std::string hold = "";
     if (*front == nullptr) {
         std::cout << "Linked List is already empty" << std::endl;
     } else if (*front == *rear) {
@@ -226,9 +220,9 @@ void *remove_front_p(pointer_node **p_front, pointer_node **p_rear) {
  * @param rear:  a pointer that points to the last node in the list
  * @return An integer that was stored in the node being deleted
  */
-int remove_rear_i(node **front, node **rear) {
+std::string remove_rear_i(node **front, node **rear) {
 
-    int hold = 0;
+    std::string hold = "";
     node *p_data = new node;
     if (*front == nullptr) {
         std::cout << "Empty linked list" << std::endl;
@@ -327,14 +321,17 @@ void reverse_list(node **front, node **rear) {
 std::vector<std::string> read_file(const std::string& file_name, std::vector<std::string> file_vector) {
     std::ifstream file_to_be_read; //REMEMBER: Files are stored in cmake-build-debug
     file_to_be_read.open(file_name, std::ios_base::app);
-    std::string line;
     if(file_to_be_read.is_open()) {
+        std::string line;
+        node *front = nullptr; node *rear = nullptr;
         while (std::getline(file_to_be_read,line)) { // fixes the issue where \n would be read
             std::stringstream ss(line);
             while (std::getline(ss, line, ' ')) {
-                file_vector.push_back(line);
+                //file_vector.push_back(line);
+                insert_front(&front, &rear, line);
             }
         }
+        navigate_list_backwards(&rear);
     }
     else {
         std::cout << "Unable to open file " << file_name << std::endl;
@@ -344,7 +341,15 @@ std::vector<std::string> read_file(const std::string& file_name, std::vector<std
 }
 
 std::vector<std::string> make_alphanumeric(std::vector<std::string> file_vector) {
-
+    for (int i = 0; i < file_vector.size(); i++) {
+        std::cout << file_vector.at(i) << std::endl;
+        std::string temp_val;
+        if(file_vector.at(i)/*d*/ > file_vector.at(i+1)/*a*/) {
+            temp_val = file_vector.at(i);
+            file_vector.at(i) = file_vector.at(i+1);
+            file_vector.at(i+1) = temp_val;
+        }
+    }
 
     return file_vector;
 }

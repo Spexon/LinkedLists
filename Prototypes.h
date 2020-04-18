@@ -10,19 +10,19 @@ void navigate_list_forward(node **front);
 
 void navigate_list_backwards(node **rear);
 
-void insert_front(node **front, node **rear, int data);
+void insert_front(node **front, node **rear, std::string data);
 
 void insert_front_p(node **front, node **rear, void *data);
 
-void insert_rear(node **front, node **rear, int data);
+void insert_rear(node **front, node **rear, std::string data);
 
 void insert_rear_p(node **front, node **rear, void *data);
 
-int remove_front_i(node **front, node **rear);
+std::string remove_front_i(node **front, node **rear);
 
 void *remove_front_p(pointer_node **front, pointer_node **rear);
 
-int remove_rear_i(node **front, node **rear);
+std::string remove_rear_i(node **front, node **rear);
 
 void *remove_rear_p(pointer_node **p_front, pointer_node **p_rear);
 

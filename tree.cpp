@@ -12,7 +12,7 @@ struct tree_node {
     std::string data;
     tree_node *Lchild;
     tree_node *Rchild;
-    int height; // Every node needs to know height to stay balanced
+    int height; // Every node needs to know its height to stay balanced
 };
 
 int node_height(tree_node *T);
