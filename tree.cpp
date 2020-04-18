@@ -15,6 +15,15 @@ struct tree_node {
     int height; // Every node needs to know height to stay balanced
 };
 
+int node_height(tree_node *T);
+void insert_tree(tree_node **T, const std::string& data);
+void single_rotate_left(tree_node **T);
+void single_rotate_right(tree_node **T);
+void double_rotate_left(tree_node **T);
+void double_rotate_right(tree_node **T);
+void hex_to_decimal(std::string hex);
+
+
 /**
  * AVL tree class for words in file
  */
@@ -29,9 +38,16 @@ public:
         return returnval;
     }
 
-    void insert_tree(tree_node **T, std::string data) {
+    void insert_tree(std::string& data) {
+        tree_node *root;
+        root = reinterpret_cast<tree_node *>(&data);
+        insert_tree(&root,data);
+    }
+
+    void insert_tree(tree_node **T, const std::string& data) {
 
         if(*T == nullptr) {
+            std::cout << "null pointer" << std::endl;
             (*T) = new tree_node;
             (*T)->Lchild = (*T)->Rchild = nullptr; // gets new node and attaches
             (*T)->data = data;
@@ -114,6 +130,28 @@ public:
 
     void create_AVL_tree(const std::vector<std::string> &file_vector) {
 
+        tree_node *root = nullptr;
+        try {
+            for (std::string i : file_vector) {
+                insert_tree(&root, i); // Must be running as administrator
+                std::cout << "here: " << root << std::endl;
+            }
+        }
+        catch (tree_node *root) {
+            std::cout << "Error: " << root << std::endl;
+        }
 
+    }
+
+    void hex_to_decimal(std::string hex) {
+
+        for(int i = 0; i < hex.length(); i++) {
+            switch(hex[i]) {
+                case 'a':
+                    std::cout << hex[i] << std::endl;
+                    break;
+
+            }
+        }
     }
 };

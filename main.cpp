@@ -51,11 +51,16 @@ int main() {
         std::cout << i << std::endl;
     }
     //create AVL tree from the words
+    tree AVL_tree;
     tree_node *root = nullptr;
-    for(std::string &i : file_vector_for_tree) {
-        //AVL_tree.insert_tree(,i); //dont use null pointer, or weird things happen
+    for(std::string i : file_vector_for_tree) { // Trying to call the AVL insert tree for each index in the vector
+        //AVL_tree.insert_tree("hello");
+        AVL_tree.insert_tree(&root,i); // Causes weird errors where I cannot run the program, accessing something i have no control over, when I edit the test_file?
+        //It seems that the 1 height nodes are being replaced with new data instead of percolating up
     }
-
+    std::cout << "Outside loop" << std::endl;
+//Welcome to my new file.
+//Where I will be writing out a couple of sentences to the console
 
 }
 
@@ -324,9 +329,11 @@ std::vector<std::string> read_file(const std::string& file_name, std::vector<std
     file_to_be_read.open(file_name, std::ios_base::app);
     std::string line;
     if(file_to_be_read.is_open()) {
-        while(std::getline(file_to_be_read,line, ' ')) {
-            file_vector.push_back(line);
-            //std::cout << line << std::endl;
+        while (std::getline(file_to_be_read,line)) { // fixes the issue where \n would be read
+            std::stringstream ss(line);
+            while (std::getline(ss, line, ' ')) {
+                file_vector.push_back(line);
+            }
         }
     }
     else {
