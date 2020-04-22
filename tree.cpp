@@ -142,8 +142,7 @@ public:
         }
 
     }
-
-    void hex_to_decimal(std::string hex) {
+     void hex_to_decimal(std::string hex) {
 
         for(int i = 0; i < hex.length(); i++) {
             switch(hex[i]) {

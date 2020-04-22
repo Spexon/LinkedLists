@@ -10,6 +10,8 @@ void navigate_list_forward(node **front);
 
 void navigate_list_backwards(node **rear);
 
+int get_list_size(node **front);
+
 void insert_front(node **front, node **rear, std::string data);
 
 void insert_front_p(node **front, node **rear, void *data);
@@ -32,8 +34,8 @@ void empty_list(node **front, node **rear);
 
 void reverse_list(node **front, node **rear);
 
-std::vector<std::string> read_file(const std::string& file_name, std::vector<std::string> file_vector);
+void read_file(node **front, node **rear, const std::string& file_name);
 
-std::vector<std::string> make_alphanumeric(std::vector<std::string> file_vector);
+void make_alphanumeric(node **front, node **rear);
 
 #endif //COP_3530__ALGORITHMS__PROTOTYPES_H

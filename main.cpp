@@ -42,12 +42,11 @@ int main() {
 
     // Read File
     std::string my_file = "test_file.txt";
-    file_vector_for_tree = read_file(my_file, file_vector_for_tree);
-    
-    //sorted_vector = make_alphanumeric(file_vector_for_tree);
-    for(std::string &i : sorted_vector) {
-        //std::cout << i << std::endl;
-    }
+    read_file(&front, &rear, my_file);
+    //navigate_list_backwards(&rear);
+    make_alphanumeric(&front, &rear);
+    navigate_list_backwards(&rear);
+
     //create AVL tree from the words
     tree AVL_tree;
     tree_node *root = nullptr;
@@ -56,7 +55,6 @@ int main() {
         //AVL_tree.insert_tree(&root,i); // Causes weird errors where I cannot run the program, accessing something i have no control over, when I edit the test_file?
         //It seems that the 1 height nodes are being replaced with new data instead of percolating up (occurs when given this error in degubber: -var-create: unable to create variable object)
     }
-    std::cout << "Outside loop" << std::endl;
 }
 
 /**
@@ -91,6 +89,17 @@ void navigate_list_backwards(node **rear) {
         std::cout << p_data->data << std::endl;
         p_data = p_data->prev;
     }
+}
+
+int get_list_size(node **front) {
+    node *p_data = new node;
+    p_data = *front;
+    int size = 0;
+    while (p_data != nullptr) {
+        p_data = p_data->next;
+        size++;
+    }
+    return size;
 }
 
 /**
@@ -318,38 +327,67 @@ void reverse_list(node **front, node **rear) {
 }
 
 
-std::vector<std::string> read_file(const std::string& file_name, std::vector<std::string> file_vector) {
+void read_file(node **front, node **rear, const std::string& file_name) {
     std::ifstream file_to_be_read; //REMEMBER: Files are stored in cmake-build-debug
     file_to_be_read.open(file_name, std::ios_base::app);
     if(file_to_be_read.is_open()) {
         std::string line;
-        node *front = nullptr; node *rear = nullptr;
         while (std::getline(file_to_be_read,line)) { // fixes the issue where \n would be read
             std::stringstream ss(line);
             while (std::getline(ss, line, ' ')) {
-                //file_vector.push_back(line);
-                insert_front(&front, &rear, line);
+                insert_front(front, rear, line);
             }
         }
-        navigate_list_backwards(&rear);
     }
     else {
         std::cout << "Unable to open file " << file_name << std::endl;
     }
     file_to_be_read.close();
-    return file_vector;
 }
 
-std::vector<std::string> make_alphanumeric(std::vector<std::string> file_vector) {
-    for (int i = 0; i < file_vector.size(); i++) {
-        std::cout << file_vector.at(i) << std::endl;
-        std::string temp_val;
-        if(file_vector.at(i)/*d*/ > file_vector.at(i+1)/*a*/) {
-            temp_val = file_vector.at(i);
-            file_vector.at(i) = file_vector.at(i+1);
-            file_vector.at(i+1) = temp_val;
+void make_alphanumeric2(node **front, node **rear) {
+    node *p_data = new node;
+    std::string temp_val;
+    bool unsorted = true;
+    while (unsorted) {
+        p_data = *rear; // Every iteration start at beginning (not optimal)
+        std::cout << "first: " << p_data->data << std::endl;
+        while(p_data->data /* d */ < p_data->prev->data /* a */) {
+            p_data = p_data->prev;
+            std::cout << p_data->data << std::endl;
+            if(p_data == nullptr) { //break once we reach the end of list
+                unsorted = false;
+            }
+        }
+        if (p_data->data /* d */ > p_data->prev->data /* a */) {
+            temp_val = p_data->data; //d
+            p_data->data = p_data->prev->data;
+            p_data->prev->data = temp_val;
         }
     }
+}
 
-    return file_vector;
+void make_alphanumeric(node **front, node **rear) { //bubble sort
+    node *p_data = new node;
+    std::string temp_val;
+    bool unsorted = true;
+    p_data = *rear;
+    while (unsorted) {
+        int swaps = 0;
+        while (p_data != *front) {
+            if (p_data->data /* d */ > p_data->prev->data /* a */) {
+                temp_val = p_data->data; //d
+                p_data->data = p_data->prev->data;
+                p_data->prev->data = temp_val;
+                swaps++;
+            }
+            if (p_data->prev == nullptr) {
+                break;
+            }
+            p_data = p_data->prev;
+        }
+        if(swaps == 0) {
+            unsorted = false;
+        }
+    }
 }
