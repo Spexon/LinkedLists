@@ -24,6 +24,7 @@ struct pointer_node {
 
 #include "Prototypes.h"
 #include "tree.cpp"
+#include "mapquest.cpp"
 
 
 /**
@@ -40,10 +41,9 @@ int main() {
     auto *p_rear = new pointer_node;
 
 
-    // Read File
-    std::string my_file = "test_file.txt";
+    // Homework 2 stuff: Read File
+    /*std::string my_file = "test_file.txt";
     read_file(&front, &rear, my_file);
-    //navigate_list_backwards(&rear);
     make_alphanumeric(&front, &rear);
     navigate_list_backwards(&rear);
 
@@ -54,7 +54,14 @@ int main() {
 
         //AVL_tree.insert_tree(&root,i); // Causes weird errors where I cannot run the program, accessing something i have no control over, when I edit the test_file?
         //It seems that the 1 height nodes are being replaced with new data instead of percolating up (occurs when given this error in degubber: -var-create: unable to create variable object)
-    }
+    }*/
+
+    // Homework 3 stuff:
+    map_quest mq;
+    int test_array[] = {30, 29, 11, 38, 42, 19, 8};
+    mq.merge_sort(test_array, 7);
+    read_file(&front, &rear, "mapcampus.txt");
+    navigate_list_forward(&rear);
 }
 
 /**
@@ -343,28 +350,6 @@ void read_file(node **front, node **rear, const std::string& file_name) {
         std::cout << "Unable to open file " << file_name << std::endl;
     }
     file_to_be_read.close();
-}
-
-void make_alphanumeric2(node **front, node **rear) {
-    node *p_data = new node;
-    std::string temp_val;
-    bool unsorted = true;
-    while (unsorted) {
-        p_data = *rear; // Every iteration start at beginning (not optimal)
-        std::cout << "first: " << p_data->data << std::endl;
-        while(p_data->data /* d */ < p_data->prev->data /* a */) {
-            p_data = p_data->prev;
-            std::cout << p_data->data << std::endl;
-            if(p_data == nullptr) { //break once we reach the end of list
-                unsorted = false;
-            }
-        }
-        if (p_data->data /* d */ > p_data->prev->data /* a */) {
-            temp_val = p_data->data; //d
-            p_data->data = p_data->prev->data;
-            p_data->prev->data = temp_val;
-        }
-    }
 }
 
 void make_alphanumeric(node **front, node **rear) { //bubble sort
